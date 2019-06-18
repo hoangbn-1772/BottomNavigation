@@ -1,9 +1,11 @@
 package com.sun.bottomnavigation.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,15 +16,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sun.bottomnavigation.R
 import com.sun.bottomnavigation.R.layout
-import kotlinx.android.synthetic.main.activity_main.bottom_navigation_basic
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
         initComponents()
-        showNotification()
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
@@ -40,29 +41,54 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return true
     }
 
-    private fun initComponents() {
-        bottom_navigation_basic?.setOnNavigationItemSelectedListener(this)
-        setupBadge()
-//        customBadge()
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.button_goto_custom -> gotoActivity(CustomActivity::class.java)
+            R.id.button_goto_component -> gotoActivity(ComponentActivity::class.java)
+        }
     }
 
+    private fun initComponents() {
+        bottom_navigation_basic?.setOnNavigationItemSelectedListener(this)
+        button_goto_custom?.setOnClickListener(this)
+        button_goto_component?.setOnClickListener(this)
+        button_update_badge?.setOnClickListener(this)
+        setupBadge()
+        customBadge()
+    }
+
+    /**
+     * Custom badge by inflate xml
+     */
     private fun customBadge() {
-        val tab = bottom_navigation_basic?.findViewById<BottomNavigationItemView>(R.id.action_near_me)
+        val tab = bottom_navigation_basic?.findViewById<BottomNavigationItemView>(R.id.action_favorite)
         val badgeView = LayoutInflater.from(this).inflate(R.layout.item_badge, tab, false)
         tab?.addView(badgeView)
     }
 
+    /**
+     * Use badge supported by BottomNavigation
+     */
     @SuppressLint("RestrictedApi")
     private fun setupBadge() {
-        val tab: FrameLayout = findViewById(R.id.frame_layout)
+        val tab: FrameLayout = findViewById(R.id.action_near_me)
+        /*Create instance of BadgeDrawable*/
         val badgeDrawable: BadgeDrawable = BadgeDrawable.create(this)
-        badgeDrawable.backgroundColor = ContextCompat.getColor(this, R.color.color_accent)
-        badgeDrawable.badgeTextColor = ContextCompat.getColor(this, R.color.color_white)
         BadgeUtils.attachBadgeDrawable(badgeDrawable, tab, null)
+        BadgeUtils.setBadgeDrawableBounds(badgeDrawable, tab, null)
+        /*Add and display BadgeDrawable*/
         val badge = bottom_navigation_basic.showBadge(R.id.action_near_me)
         badge.number = 10
+        badge.backgroundColor = ContextCompat.getColor(this, R.color.color_secondary)
+        badge.badgeTextColor = ContextCompat.getColor(this, R.color.color_on_primary)
+
+        /*remove BadgeDrawables that are no longer needed.*/
+//        bottom_navigation_basic?.removeBadge(R.id.action_near_me)
     }
 
-    private fun showNotification() {
+    private fun gotoActivity(toClass: Class<*>) {
+        Intent(this, toClass).apply {
+            startActivity(this)
+        }
     }
 }

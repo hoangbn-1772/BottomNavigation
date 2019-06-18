@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame_layout"
@@ -7,12 +8,58 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <TextView
+        android:id="@+id/text_title_basic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="@string/title_basic"
+        android:textSize="@dimen/sp_20"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_update_badge"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_below="@id/text_title_basic"
+        android:text="@string/action_update_badge"/>
+
+    <View
+        android:id="@+id/view_separation"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/button_update_badge"
+        android:background="?attr/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/text_title_advance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_separation"
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="@string/title_advance"
+        android:textSize="@dimen/sp_20"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_goto_custom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_below="@id/text_title_advance"
+        android:text="@string/action_goto_custom"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_goto_component"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_below="@id/button_goto_custom"
+        android:text="@string/action_goto_component"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_basic"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom"
+        android:layout_height="@dimen/dp_48"
+        android:layout_alignParentBottom="true"
         app:itemIconTint="@drawable/bottom_navigation_colors"
         app:itemTextColor="@drawable/bottom_navigation_colors"
-        app:menu="@menu/bottom_navigation_menu" />
-</FrameLayout>
+        app:menu="@menu/bottom_navigation_menu"/>
+</RelativeLayout>

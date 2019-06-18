@@ -3,4 +3,9 @@
     <string name="action_recent">Recent</string>
     <string name="action_favorite">Favorite</string>
     <string name="action_near">NearMe</string>
+    <string name="title_basic">Basic</string>
+    <string name="action_update_badge">Update Badge</string>
+    <string name="title_advance">Advance</string>
+    <string name="action_goto_custom">Custom</string>
+    <string name="action_goto_component">With Navigation Component</string>
 </resources>
